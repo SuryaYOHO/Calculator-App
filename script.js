@@ -1,59 +1,70 @@
-let currentValue = "";
-let firstNumber = null;
-let operator = "";
-
+let expression = "";
 const display = document.getElementById("display");
 
-/* number press */
-function press(value) {
-  if (value === "." && currentValue.includes(".")) return;
-
-  currentValue += value;
-
-  if (operator !== "") {
-    display.value = firstNumber + operator + currentValue;
-  } else {
-    display.value = currentValue;
-  }
+function press(val) {
+  expression += val;
+  display.value = expression;
 }
-/* operator press */
+
 function setOperator(op) {
-  if (currentValue === "") return;
+  if (expression === "") return;
 
-  firstNumber = Number(currentValue);
-  operator = op;
-  currentValue = "";
-  display.value = firstNumber + operator;
+  const lastChar = expression.slice(-1);
+  if ("+-*/".includes(lastChar)) {
+    // replace double operator
+    expression = expression.slice(0, -1);
+  }
+
+  expression += op;
+  display.value = expression;
 }
 
-/* calculation */
-function calculate() {
-  if (firstNumber === null || currentValue === "") return;
 
-  let secondNumber = Number(currentValue);
-  let result;
-
-  if (operator === "+") result = firstNumber + secondNumber;
-  else if (operator === "-") result = firstNumber - secondNumber;
-  else if (operator === "*") result = firstNumber * secondNumber;
-  else if (operator === "/") result = secondNumber === 0 ? "Error" : firstNumber / secondNumber;
-
-  display.value = result;
-  currentValue = result.toString();
-  firstNumber = null;
-  operator = "";
-}
-
-/* clear all */
 function clearAll() {
-  currentValue = "";
-  firstNumber = null;
-  operator = "";
+  expression = "";
   display.value = "";
 }
 
-/* delete last digit */
+
+
 function deleteOne() {
-  currentValue = currentValue.slice(0, -1);
-  display.value = currentValue;
+  expression = expression.slice(0, -1);
+  display.value = expression;
+}
+
+function calculate() {
+  if (!expression) return;
+
+  let nums = [];
+  let ops = [];
+  let temp = "";
+
+  // tokenize numbers & operators
+  for (let ch of expression) {
+    if ("+-*/".includes(ch)) {
+      nums.push(Number(temp));
+      ops.push(ch);
+      temp = "";
+    } else temp += ch;
+  }
+  nums.push(Number(temp));
+
+  // first * / then + -
+  for (let i = 0; i < ops.length; i++) {
+    if (ops[i] === "*" || ops[i] === "/") {
+      let res = ops[i] === "*" ? nums[i]*nums[i+1] : nums[i]/nums[i+1];
+      nums.splice(i,2,res);
+      ops.splice(i,1);
+      i--;
+    }
+  }
+
+  let result = nums[0];
+  for (let i=0;i<ops.length;i++){
+    if(ops[i]==="+") result += nums[i+1];
+    if(ops[i]==="-") result -= nums[i+1];
+  }
+
+  display.value = result;
+  expression = result.toString();
 }
