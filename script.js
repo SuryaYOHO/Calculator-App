@@ -9,9 +9,13 @@ function press(value) {
   if (value === "." && currentValue.includes(".")) return;
 
   currentValue += value;
-  display.value = currentValue;
-}
 
+  if (operator !== "") {
+    display.value = firstNumber + operator + currentValue;
+  } else {
+    display.value = currentValue;
+  }
+}
 /* operator press */
 function setOperator(op) {
   if (currentValue === "") return;
@@ -19,6 +23,7 @@ function setOperator(op) {
   firstNumber = Number(currentValue);
   operator = op;
   currentValue = "";
+  display.value = firstNumber + operator;
 }
 
 /* calculation */
