@@ -9,9 +9,9 @@ function press(val) {
 function setOperator(op) {
   if (expression === "") return;
 
-  const lastChar = expression.slice(-1);
+  const lastChar = expression.slice(- 1);
   if ("+-*/".includes(lastChar)) {
-    // replace double operator
+    
     expression = expression.slice(0, -1);
   }
 
