@@ -1,72 +1,64 @@
-let expression = "";
-let display = document.getElementById("display");
+    const display = document.getElementById("display");
+    let expr = "";
 
+    function press(value) {
+      expr += value;
+      display.value = expr;
+    }
+    function operator(op) {
+      if (!expr) return;
+      if ("+-*/".includes(expr.slice(-1))) return;
+      expr += op;
+      display.value = expr;
+    }
+    function clearAll() {
+      expr = "";
+      display.value = 0;
+    }
+    function backspace() {
+      expr = expr.slice(0, -1);
+      display.value = expr || 0;
+    }
+    function equal() {
+      if (!expr) return;
+      const tokens = tokenize(expr);
+      const result = calculate(tokens);
+      display.value = result;
+      expr = result.toString();
+    }
+    function tokenize(str) {
+      let tokens = [];
+      let num = "";
 
-function getNumber(num) {
-  expression += num;
-  display.value = expression;
-}
-
-function getOperator(op) {
-  if (expression === "") return; 
-  expression += op;
-  display.value = expression;
-}
-
-function clearDisplay() {
-  expression = "";
-  display.value = 0;
-}
-
-function deleteOne() {
-  expression = expression.slice(0, -1);
-  display.value = expression || 0;
-}
-
-function tokenizeExpression(expr) {
-  const tokens = [];
-  let number = "";
-
-  for (let char of expr) {
-    if ("+-*/".includes(char)) {
-      if (number !== "") {
-        tokens.push(number);
-        number = "";
+      for (let ch of str) {
+        if ("+-*/".includes(ch)) {
+          tokens.push(num);
+          tokens.push(ch);
+          num = "";
+        } else {
+          num += ch;
+        }
       }
-      tokens.push(char);
-    } else {
-      number += char;
+      tokens.push(num);
+      return tokens;
     }
-  }
 
-  if (number !== "") tokens.push(number);
-  return tokens;
-}
-
-function calculateEqual() {
-  if (expression === "") return;
-
-  let tokens = tokenizeExpression(expression);
-
-  for (let i = 0; i < tokens.length; i++) {
-    if (tokens[i] === "*" || tokens[i] === "/") {
-      let a = parseFloat(tokens[i - 1]);
-      let b = parseFloat(tokens[i + 1]);
-      let result = tokens[i] === "*" ? a * b : a / b;
-      tokens.splice(i - 1, 3, result.toString());
-      i--; 
+    function calculate(tokens) {
+      for (let i = 0; i < tokens.length; i++) {
+        if (tokens[i] === "*" || tokens[i] === "/") {
+          let a = Number(tokens[i - 1]);
+          let b = Number(tokens[i + 1]);
+          let res = tokens[i] === "*" ? a * b : a / b;
+          tokens.splice(i - 1, 3, res.toString());
+          i--;
+        }
+      }
+      let result = Number(tokens[0]);
+      for (let i = 1; i < tokens.length; i += 2) {
+        let op = tokens[i];
+        let num = Number(tokens[i + 1]);
+        if (op === "+") result += num;
+        else result -= num;
+      }
+      return result;
     }
-  }
-
-  let result = parseFloat(tokens[0]);
-  for (let i = 1; i < tokens.length; i += 2) {
-    let op = tokens[i];
-    let num = parseFloat(tokens[i + 1]);
-
-    if (op === "+") result += num;
-    else if (op === "-") result -= num;
-  }
-
-  display.value = result;
-  expression = result.toString();
-}
