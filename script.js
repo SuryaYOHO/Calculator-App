@@ -5,7 +5,7 @@ let display = document.getElementById("display");
 
 
 function pressNumber(num) {
-    if (operator === "") {
+    if (operator === "") {      
         firstNumber += num;
     } else {
         secondNumber += num;
