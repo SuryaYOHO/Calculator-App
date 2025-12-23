@@ -14,28 +14,28 @@
     <input type="text" id="display" readonly placeholder="0">
 
     <div class="buttons">
-      <button onclick="clearAll()">AC</button>
+      <button onclick="clearDisplay()">AC</button>
       <button onclick="deleteOne()">DEL</button>
-      <button onclick="setOperator('/')">÷</button>
-      <button onclick="setOperator('*')">×</button>
+      <button onclick="getOperator('/')">÷</button>
+      <button onclick="getOperator('*')">×</button>
 
-      <button onclick="press('7')">7</button>
-      <button onclick="press('8')">8</button>
-      <button onclick="press('9')">9</button>
-      <button onclick="setOperator('-')">−</button>
+      <button onclick="getNumber('7')">7</button>
+      <button onclick="getNumber('8')">8</button>
+      <button onclick="getNumber('9')">9</button>
+      <button onclick="getOperator('-')">−</button>
 
-      <button onclick="press('4')">4</button>
-      <button onclick="press('5')">5</button>
-      <button onclick="press('6')">6</button>
-      <button onclick="setOperator('+')">+</button>
+      <button onclick="getNumber('4')">4</button>
+      <button onclick="getNumber('5')">5</button>
+      <button onclick="getNumber('6')">6</button>
+      <button onclick="getOperator('+')">+</button>
 
-      <button onclick="press('1')">1</button>
-      <button onclick="press('2')">2</button>
-      <button onclick="press('3')">3</button>
-      <button onclick="press('.')">.</button>
+      <button onclick="getNumber('1')">1</button>
+      <button onclick="getNumber('2')">2</button>
+      <button onclick="getNumber('3')">3</button>
+      <button onclick="getNumber('.')">.</button>
 
-      <button class="zero" onclick="press('0')">0</button>
-      <button class="equal" onclick="calculate()">=</button>
+      <button class="zero" onclick="getNumber('0')">0</button>
+      <button class="equal" onclick="calculateEqual()">=</button>
     </div>
   </div>
 
