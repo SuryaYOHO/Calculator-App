@@ -1,64 +1,61 @@
-    const display = document.getElementById("display");
-    let expr = "";
+let firstNumber = "";
+let secondNumber = "";
+let operator = "";
+let display = document.getElementById("display");
 
-    function press(value) {
-      expr += value;
-      display.value = expr;
-    }
-    function operator(op) {
-      if (!expr) return;
-      if ("+-*/".includes(expr.slice(-1))) return;
-      expr += op;
-      display.value = expr;
-    }
-    function clearAll() {
-      expr = "";
-      display.value = 0;
-    }
-    function backspace() {
-      expr = expr.slice(0, -1);
-      display.value = expr || 0;
-    }
-    function equal() {
-      if (!expr) return;
-      const tokens = tokenize(expr);
-      const result = calculate(tokens);
-      display.value = result;
-      expr = result.toString();
-    }
-    function tokenize(str) {
-      let tokens = [];
-      let num = "";
 
-      for (let ch of str) {
-        if ("+-*/".includes(ch)) {
-          tokens.push(num);
-          tokens.push(ch);
-          num = "";
-        } else {
-          num += ch;
-        }
-      }
-      tokens.push(num);
-      return tokens;
+function pressNumber(num) {
+    if (operator === "") {
+        firstNumber += num;
+    } else {
+        secondNumber += num;
     }
+    updateDisplay();
+}
 
-    function calculate(tokens) {
-      for (let i = 0; i < tokens.length; i++) {
-        if (tokens[i] === "*" || tokens[i] === "/") {
-          let a = Number(tokens[i - 1]);
-          let b = Number(tokens[i + 1]);
-          let res = tokens[i] === "*" ? a * b : a / b;
-          tokens.splice(i - 1, 3, res.toString());
-          i--;
-        }
-      }
-      let result = Number(tokens[0]);
-      for (let i = 1; i < tokens.length; i += 2) {
-        let op = tokens[i];
-        let num = Number(tokens[i + 1]);
-        if (op === "+") result += num;
-        else result -= num;
-      }
-      return result;
+function pressOperator(op) {
+    if (firstNumber === "") return; 
+    if (operator !== "") return;    
+    operator = op;
+    updateDisplay();
+}
+
+function calculate() {
+    if (firstNumber === "" || secondNumber === "" || operator === "") return;
+
+    let num1 = parseFloat(firstNumber);
+    let num2 = parseFloat(secondNumber);
+    let result = 0;
+
+    if (operator === "+") result = num1 + num2;
+    else if (operator === "-") result = num1 - num2;
+    else if (operator === "*") result = num1 * num2;
+    else if (operator === "/") result = num1 / num2;
+
+    display.value = result;
+    firstNumber = result.toString();
+    secondNumber = "";
+    operator = "";
+}
+
+function clearDisplay() {
+    firstNumber = "";
+    secondNumber = "";
+    operator = "";
+    display.value = "0";
+}
+
+function backspace() {
+    if (operator === "") {
+        firstNumber = firstNumber.slice(0, -1);
+    } else if (secondNumber === "") {
+        operator = ""; 
+    } else {
+        secondNumber = secondNumber.slice(0, -1);
     }
+    updateDisplay();
+}
+
+function updateDisplay() {
+    display.value = firstNumber + (operator ? " " + operator + " " : "") + secondNumber;
+}

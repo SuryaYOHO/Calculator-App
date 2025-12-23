@@ -2,42 +2,41 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Casio Style Calculator</title>
-  <link rel="icon" href="calculator.png">
+  <title> Calculator</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="calculator">
-    <h2>CASIO</h2>
-    <input type="text" id="display" readonly placeholder="0">
+<div class="calculator">
+  <h2>CASIO</h2>
+  <input type="text" id="display" placeholder="0" readonly>
 
-    <div class="buttons">
-      <button onclick="clearAll()">AC</button>
-      <button onclick="backspace()">DEL</button>
-      <button onclick="operator('/')">÷</button>
-      <button onclick="operator('*')">×</button>
+  <div class="buttons">
+    <button onclick="clearDisplay()">AC</button>
+    <button onclick="backspace()">DEL</button>
+    <button onclick="pressOperator('/')">÷</button>
+    <button onclick="pressOperator('*')">×</button>
 
-      <button onclick="press('7')">7</button>
-      <button onclick="press('8')">8</button>
-      <button onclick="press('9')">9</button>
-      <button onclick="operator('-')">−</button>
+    <button onclick="pressNumber('7')">7</button>
+    <button onclick="pressNumber('8')">8</button>
+    <button onclick="pressNumber('9')">9</button>
+    <button onclick="pressOperator('-')">−</button>
 
-      <button onclick="press('4')">4</button>
-      <button onclick="press('5')">5</button>
-      <button onclick="press('6')">6</button>
-      <button onclick="operator('+')">+</button>
+    <button onclick="pressNumber('4')">4</button>
+    <button onclick="pressNumber('5')">5</button>
+    <button onclick="pressNumber('6')">6</button>
+    <button onclick="pressOperator('+')">+</button>
 
-      <button onclick="press('1')">1</button>
-      <button onclick="press('2')">2</button>
-      <button onclick="press('3')">3</button>
-      <button onclick="press('.')">.</button>
+    <button onclick="pressNumber('1')">1</button>
+    <button onclick="pressNumber('2')">2</button>
+    <button onclick="pressNumber('3')">3</button>
+    <button onclick="pressNumber('.')">.</button>
 
-      <button class="zero" onclick="press('0')">0</button>
-      <button class="equal" onclick="equal()">=</button>
-    </div>
+    <button class="zero" onclick="pressNumber('0')">0</button>
+    <button class="equal" onclick="calculate()">=</button>
   </div>
+</div>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
